@@ -1,9 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.UIManager;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.ButtonGroup;
 public class Main extends JFrame {
         public static void main(String[] args) {
                 SwingUtilities.invokeLater(() -> {
@@ -18,10 +26,13 @@ public class Main extends JFrame {
 
                         // Text area
                         JTextArea textArea = new JTextArea();
-                        textArea.setForeground(Color.WHITE);
+                        textArea.setForeground(Color.RED);
                         textArea.setBackground(Color.BLACK);
-                        textArea.setFont(new Font("Minster No 1", Font.PLAIN, 33));//only english font
+                        //textArea.setFont(new Font("Minster No 1", Font.PLAIN, 33));//only english font
                         textArea.setFont(new Font("Schwabacher",Font.PLAIN,33));//with two font
+                        textArea.setFont(new Font("Minister No 1",Font.PLAIN,33));
+                        textArea.setCaretColor(Color.MAGENTA);
+
                         //textArea.setFont(new Font("HelmswaldPost",Font.PLAIN,33));
                         //saveButton.setText("change");
 
@@ -39,17 +50,33 @@ public class Main extends JFrame {
                         JButton saveButton = new JButton("\uD835\uDD7E\uD835\uDD86\uD835\uDD9B\uD835\uDD8A");
                         saveButton.setForeground(Color.RED);
                         saveButton.setBackground(Color.BLACK);
-                        //change font button
-                        JButton font = new JButton("\uD835\uDD16\uD835\uDD1E\uD835\uDD2A\uD835\uDD2D\uD835\uDD29\uD835\uDD22 \uD835\uDD17\uD835\uDD22\uD835\uDD35\uD835\uDD31");
-                        font.setForeground(Color.RED);
-                        font.setBackground(Color.BLACK);
-                        //window.add(font,BorderLayout.LINE_END);
-                        font.setPreferredSize(new Dimension(-50,50));
-                        window.add(font,BorderLayout.PAGE_START);
+                        //Change font button
+                        JMenuBar menubar = new JMenuBar();
+                        UIManager.put("MenuBar.background",Color.BLACK);
+                        JMenu menu = new JMenu("Font");
+                        menu.setForeground(Color.RED);
+                        menubar.setLayout(new GridBagLayout());
+                        menubar.add(menu);
+                        menu.setBorderPainted(true);
+                        UIManager.put("PopupMenu.border",BorderFactory.createLineBorder(Color.WHITE));
+//подменю
+                        UIManager.put("MenuItem.selectionForeground",Color.WHITE);//for menuItem1--------------
+                        UIManager.put("MenuItem.selectionBackground",Color.BLACK);
+                        JMenuItem menuItem1 = new JMenuItem("Goth",KeyEvent.VK_N);
+                        menuItem1.setBackground(Color.BLACK);
+                        menuItem1.setForeground(Color.RED);
+                        menuItem1.setContentAreaFilled(false);
+                        UIManager.put("MenuItem.selectionBackground",Color.BLACK); //for menuItem2--------------
+                        UIManager.put("MenuItem.selectionForeground",Color.WHITE);
+                        menu.add(menuItem1);
+                        JMenuItem menuItem2 = new JMenuItem("Goth2",KeyEvent.VK_0);
+                        menuItem2.setBackground(Color.BLACK);
+                        menuItem2.setForeground(Color.RED);
 
-
+                        menu.add(menuItem2);
+                        menuItem2.setEnabled(true);
+                        window.setJMenuBar(menubar);
                         //Buttons SIZEs place
-
                         saveButton.addActionListener(e -> {
                                 JFileChooser fileChooser = new JFileChooser();
                                 int option = fileChooser.showSaveDialog(window);
@@ -58,6 +85,12 @@ public class Main extends JFrame {
                                         saveTextToFile(textArea.getText(), file);
                                         JOptionPane.showMessageDialog(window, "\uD835\uDD7F\uD835\uDD8A\uD835\uDD9D\uD835\uDD99 \uD835\uDD98\uD835\uDD86\uD835\uDD9B\uD835\uDD8A\uD835\uDD89 \uD835\uDD98\uD835\uDD9A\uD835\uDD88\uD835\uDD88\uD835\uDD8A\uD835\uDD98\uD835\uDD98\uD835\uDD8B\uD835\uDD9A\uD835\uDD91\uD835\uDD91\uD835\uDD9E!");
                                 }
+                        });
+                        menuItem1.addActionListener(e ->{
+                                textArea.setFont(new Font("Minster No 1",Font.PLAIN,33));
+                        });
+                        menuItem2.addActionListener(e ->{
+                                textArea.setFont(new Font("Schwabacher",Font.PLAIN,33));
                         });
 
                         window.add(saveButton, BorderLayout.SOUTH);
